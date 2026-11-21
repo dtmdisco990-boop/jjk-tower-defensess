@@ -1,0 +1,4 @@
+{
+  "_readme": "Optional. You do NOT need to edit this file: a rigged model saved as assets/models/<character id>.glb (e.g. assets/models/yuji.glb) is found and configured automatically. Add an entry under \"models\" only to override automatic choices, e.g. \"yuji\": { \"file\": \"yuji.glb\", \"textureMax\": 4096 }. Keys: file, enabled, animation (\"clips\"|\"procedural\"), clips (role -> clip name), toon, outline, heightPx, yawDeg, footIK, textureMax, lighting. See docs/CHAR3D.md.",
+  "models": {}
+}
