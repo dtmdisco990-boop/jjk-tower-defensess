@@ -1,0 +1,44 @@
+{
+ "skibrib": {
+  "attempts": 2,
+  "wins": 1,
+  "deaths": 1,
+  "highestWave": 75,
+  "bestTime": 900,
+  "completed": true,
+  "bestLives": 3,
+  "fewestUnits": 8
+ },
+ "endless": {
+  "bestWave": 75,
+  "bestScore": 3000,
+  "byMap": {
+   "skibrib": {
+    "bestWave": 75,
+    "bestScore": 3000
+   }
+  }
+ },
+ "progress": {
+  "maps": {}
+ },
+ "challenges": {
+  "done": {
+   "endless_20": true,
+   "skib_30": true,
+   "skib_50": true,
+   "skib_65": true,
+   "skib_win": true
+  }
+ },
+ "player": {
+  "level": 4,
+  "xp": 152
+ },
+ "bossRecords": {
+  "skibAbom": {
+   "kills": 1,
+   "bestTime": 200
+  }
+ }
+}
