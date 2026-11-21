@@ -1,0 +1,38 @@
+name: Build iOS IPA (unsigned)
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm install --no-audit --no-fund
+      - run: npm run build:www
+      - run: npx cap add ios
+      - name: App icon
+        run: cp assets/icon-1024.png ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png
+      - name: Force landscape
+        run: |
+          P=ios/App/App/Info.plist
+          for K in UISupportedInterfaceOrientations "UISupportedInterfaceOrientations~ipad"; do
+            /usr/libexec/PlistBuddy -c "Delete :$K" $P || true
+            /usr/libexec/PlistBuddy -c "Add :$K array" $P
+            /usr/libexec/PlistBuddy -c "Add :$K:0 string UIInterfaceOrientationLandscapeLeft" $P
+            /usr/libexec/PlistBuddy -c "Add :$K:1 string UIInterfaceOrientationLandscapeRight" $P
+          done
+      - run: npx cap sync ios
+      - name: Build (no signing)
+        run: |
+          cd ios/App
+          if [ -d App.xcworkspace ]; then TARGET="-workspace App.xcworkspace"; else TARGET="-project App.xcodeproj"; fi
+          xcodebuild $TARGET -scheme App -configuration Release -sdk iphoneos \
+            -derivedDataPath ../../build CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" build
+      - name: Package IPA
+        run: |
+          mkdir Payload
+          cp -R build/Build/Products/Release-iphoneos/App.app Payload/
+          zip -qr JJK-TD.ipa Payload
+      - uses: actions/upload-artifact@v4
+        with: { name: JJK-TD-ipa, path: JJK-TD.ipa }
